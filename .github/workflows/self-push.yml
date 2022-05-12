@@ -3,15 +3,7 @@ name: Self-hosted runner (push)
 on:
   push:
     branches:
-      - main
-      - ci_*
-      - ci-*
-    paths:
-      - "src/**"
-      - "tests/**"
-      - ".github/**"
-      - "templates/**"
-      - "utils/**"
+      - test_run_seq2seq_fully_sharded_ddp
   repository_dispatch:
 
 env:
@@ -470,30 +462,3 @@ jobs:
         with:
           name: run_tests_torch_cuda_extensions_multi_gpu_test_reports
           path: reports
-
-
-  send_results:
-    name: Send results to webhook
-    runs-on: ubuntu-latest
-    if: always()
-    needs: [
-        run_tests_torch_gpu,
-#        run_tests_tf_gpu,
-        run_tests_torch_multi_gpu,
-#        run_tests_tf_multi_gpu,
-        run_tests_torch_cuda_extensions_gpu,
-        run_tests_torch_cuda_extensions_multi_gpu
-    ]
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
-
-      - name: Send message to Slack
-        env:
-          CI_SLACK_BOT_TOKEN: ${{ secrets.CI_SLACK_BOT_TOKEN }}
-          CI_SLACK_CHANNEL_ID: ${{ secrets.CI_SLACK_CHANNEL_ID }}
-
-        run: |
-          pip install slack_sdk
-          python utils/notification_service_deprecated.py push

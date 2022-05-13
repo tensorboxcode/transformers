@@ -275,7 +275,7 @@ class GPTJMLP(nn.Module):
         self.act = ACT2FN[config.activation_function]
         self.dropout = nn.Dropout(config.resid_pdrop)
 
-    def forward(self, hidden_states: Optional[torch.FloatTensor]) -> torch.FloatTensor:
+    def forward(self, hidden_states: Optional[torch.FloatTensor]) -> Optional[torch.FloatTensor]:
         hidden_states = self.fc_in(hidden_states)
         hidden_states = self.act(hidden_states)
         hidden_states = self.fc_out(hidden_states)

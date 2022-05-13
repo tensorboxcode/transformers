@@ -194,7 +194,7 @@ class GPTJAttention(nn.Module):
         self,
         hidden_states: Optional[torch.FloatTensor],
         attention_mask: Optional[torch.FloatTensor] = None,
-        layer_past: Optional[Tuple[torch.Tensor]] = None,
+        layer_past: Optional[Tuple[torch.Tensor, ...]] = None,
         head_mask: Optional[torch.FloatTensor] = None,
         use_cache: Optional[bool] = False,
         output_attentions: Optional[bool] = False,
